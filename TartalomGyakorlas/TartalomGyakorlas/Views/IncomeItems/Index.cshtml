@@ -1,0 +1,47 @@
+﻿@using TartalomGyakorlas.Models
+@using System.Collections.Generic 
+
+@model List<IncomeItems>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            @Html.ActionLink("Új termék felvitele", "UjElem", "IncomeItems", new { @class = "btn btn-default" })
+            <div class="pull-right">
+                @Html.ActionLink("Termékek exportálása", "Letoltes", "IncomeItems", new { @class = "btn btn-default" })
+            </div>
+        </div>
+
+        <div class="col-md-6"><span class="pull-right">
+          
+           @Html.Partial("_FileUpload", "UploadFile")
+            </span></div>
+    </div>
+</div>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Név</th>
+            <th>Kategória ID</th>
+            <th>Utolsó érték</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.ID</td>
+                <td>@t.Name</td>
+                <td>@t.CategoryID</td>
+                <td>@t.LastValue</td>
+                <td>@Html.ActionLink("Szerkesztés", "Szerkesztes", t)</td>
+            </tr>
+        }
+    </tbody>
+</table>

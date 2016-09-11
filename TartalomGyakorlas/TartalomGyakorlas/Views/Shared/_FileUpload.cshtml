@@ -1,0 +1,7 @@
+﻿
+
+@using (Html.BeginForm("UploadFile", "IncomeItems", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="FileName" id="file"/>
+    <input type="submit" value="Feltöltés" class= "btn btn-default"/>
+}

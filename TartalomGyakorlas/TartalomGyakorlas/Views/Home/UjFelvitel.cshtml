@@ -1,0 +1,54 @@
+﻿@using TartalomGyakorlas.Models
+
+@model BevetelEsKiadas
+
+
+@using (Html.BeginForm("UjFelvitel", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.UserID)
+    @Html.HiddenFor(model => model.IsBevetel)
+
+    <div class="form-horizontal">
+        @if (Model.IsBevetel)
+        {
+            <h4>Új bevétel felvitele</h4>
+        }
+        else
+        {
+            <h4>Új kiadás felvitele</h4>
+        }
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.IncomeItemID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IncomeItemID, new { htmlAttributes = new { @class = "form-control" } })
+               
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
+                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @* <input type="submit" value="Create" class="btn btn-default" />*@
+                <button type="submit" class="btn btn-default">Mentés</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Home")
+</div>
+

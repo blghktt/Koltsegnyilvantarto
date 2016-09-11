@@ -1,0 +1,12 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <li><p class="navbar-text">Bejelentkezve: @(User.Identity.Name)</p></li>
+    <li>@Html.ActionLink("Kijelentkezés", "Index", "Logout")</li>
+
+}
+else
+{
+    <li>@Html.ActionLink("Bejelentkezés", "Index", "Login")</li>
+    <li>@Html.ActionLink("Regisztráció", "Index", "Register")</li>
+}
+
