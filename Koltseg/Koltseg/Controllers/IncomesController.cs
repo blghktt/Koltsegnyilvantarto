@@ -11,112 +11,116 @@ using Koltseg.Models;
 
 namespace Koltseg.Controllers
 {
-    public class IncomeItemsController : Controller
+    public class IncomesController : Controller
     {
         private KoltsegContext db = new KoltsegContext();
 
-        // GET: IncomeItems
+        // GET: Incomes
         public ActionResult Index()
         {
-            var incomeItems = db.IncomeItems.Include(i => i.Category);
-            return View(incomeItems.ToList());
+            var incomes = db.Incomes.Include(i => i.IncomeItem).Include(i => i.User);
+            return View(incomes.ToList());
         }
 
-        // GET: IncomeItems/Details/5
+        // GET: Incomes/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IncomeItem incomeItem = db.IncomeItems.Find(id);
-            if (incomeItem == null)
+            Income income = db.Incomes.Find(id);
+            if (income == null)
             {
                 return HttpNotFound();
             }
-            return View(incomeItem);
+            return View(income);
         }
 
-        // GET: IncomeItems/Create
+        // GET: Incomes/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryID = new SelectList(db.Categorys, "ID", "Name");
+            ViewBag.IncomeItemID = new SelectList(db.IncomeItems, "ID", "Name");
+            ViewBag.UserID = new SelectList(db.Users, "ID", "UserName");
             return View();
         }
 
-        // POST: IncomeItems/Create
+        // POST: Incomes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,CategoryID,LastValue")] IncomeItem incomeItem)
+        public ActionResult Create([Bind(Include = "ID,UserID,IncomeItemID,Value,CreatedTime")] Income income)
         {
             if (ModelState.IsValid)
             {
-                db.IncomeItems.Add(incomeItem);
+                db.Incomes.Add(income);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryID = new SelectList(db.Categorys, "ID", "Name", incomeItem.CategoryID);
-            return View(incomeItem);
+            ViewBag.IncomeItemID = new SelectList(db.IncomeItems, "ID", "Name", income.IncomeItemID);
+            ViewBag.UserID = new SelectList(db.Users, "ID", "UserName", income.UserID);
+            return View(income);
         }
 
-        // GET: IncomeItems/Edit/5
+        // GET: Incomes/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IncomeItem incomeItem = db.IncomeItems.Find(id);
-            if (incomeItem == null)
+            Income income = db.Incomes.Find(id);
+            if (income == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryID = new SelectList(db.Categorys, "ID", "Name", incomeItem.CategoryID);
-            return View(incomeItem);
+            ViewBag.IncomeItemID = new SelectList(db.IncomeItems, "ID", "Name", income.IncomeItemID);
+            ViewBag.UserID = new SelectList(db.Users, "ID", "UserName", income.UserID);
+            return View(income);
         }
 
-        // POST: IncomeItems/Edit/5
+        // POST: Incomes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,CategoryID,LastValue")] IncomeItem incomeItem)
+        public ActionResult Edit([Bind(Include = "ID,UserID,IncomeItemID,Value,CreatedTime")] Income income)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(incomeItem).State = EntityState.Modified;
+                db.Entry(income).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryID = new SelectList(db.Categorys, "ID", "Name", incomeItem.CategoryID);
-            return View(incomeItem);
+            ViewBag.IncomeItemID = new SelectList(db.IncomeItems, "ID", "Name", income.IncomeItemID);
+            ViewBag.UserID = new SelectList(db.Users, "ID", "UserName", income.UserID);
+            return View(income);
         }
 
-        // GET: IncomeItems/Delete/5
+        // GET: Incomes/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IncomeItem incomeItem = db.IncomeItems.Find(id);
-            if (incomeItem == null)
+            Income income = db.Incomes.Find(id);
+            if (income == null)
             {
                 return HttpNotFound();
             }
-            return View(incomeItem);
+            return View(income);
         }
 
-        // POST: IncomeItems/Delete/5
+        // POST: Incomes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            IncomeItem incomeItem = db.IncomeItems.Find(id);
-            db.IncomeItems.Remove(incomeItem);
+            Income income = db.Incomes.Find(id);
+            db.Incomes.Remove(income);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

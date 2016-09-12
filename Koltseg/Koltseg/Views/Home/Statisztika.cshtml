@@ -1,0 +1,23 @@
+﻿
+@DateTime.Now.Year
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Hónap</th>
+            <th>Havi összes bevétel</th>
+            <th>Havi összes kiadás</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < DateTime.Now.Month; i++)
+        {
+            <tr>
+                <td>@Html.ActionLink(new DateTime(DateTime.Now.Year, i + 1, 1).ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("hu")), "Statisztika", "Home", null, new { id = i + 1 })</td>
+                <td></td>
+                <td></td>
+
+            </tr>
+        }
+    </tbody>
+</table>

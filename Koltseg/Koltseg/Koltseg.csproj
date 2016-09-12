@@ -158,14 +158,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IncomeItemsController.cs" />
+    <Compile Include="Controllers\IncomesController.cs" />
+    <Compile Include="Controllers\SpendingItemController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="DAL\KoltsegContext.cs" />
+    <Compile Include="DAL\KoltsegInitializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Koltsegvetes.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Income.cs" />
     <Compile Include="Models\IncomeItem.cs" />
@@ -173,6 +176,7 @@
     <Compile Include="Models\SpendingItem.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\TermekSzerkeszto.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -211,22 +215,25 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Register\Index.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_FileUpload.cshtml" />
+    <Content Include="Views\SpendingItem\Index.cshtml" />
+    <Content Include="Views\SpendingItem\UjElem.cshtml" />
+    <Content Include="Views\Home\Statisztika.cshtml" />
+    <Content Include="Views\Home\UjFelvitel.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Delete.cshtml" />
     <Content Include="Views\Categories\Details.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
-    <Content Include="Views\IncomeItems\Create.cshtml" />
-    <Content Include="Views\IncomeItems\Delete.cshtml" />
-    <Content Include="Views\IncomeItems\Details.cshtml" />
-    <Content Include="Views\IncomeItems\Edit.cshtml" />
-    <Content Include="Views\IncomeItems\Index.cshtml" />
-    <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Register\Index.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Incomes\Create.cshtml" />
+    <Content Include="Views\Incomes\Delete.cshtml" />
+    <Content Include="Views\Incomes\Details.cshtml" />
+    <Content Include="Views\Incomes\Edit.cshtml" />
+    <Content Include="Views\Incomes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,7 +18,7 @@ namespace Koltseg.Controllers
         // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Categorys.ToList());
+            return View(db.Categories.ToList());
         }
 
         // GET: Categories/Details/5
@@ -28,7 +28,7 @@ namespace Koltseg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categorys.Find(id);
+            Category category = db.Categories.Find(id);
             if (category == null)
             {
                 return HttpNotFound();
@@ -51,7 +51,7 @@ namespace Koltseg.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Categorys.Add(category);
+                db.Categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -66,7 +66,7 @@ namespace Koltseg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categorys.Find(id);
+            Category category = db.Categories.Find(id);
             if (category == null)
             {
                 return HttpNotFound();
@@ -97,7 +97,7 @@ namespace Koltseg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categorys.Find(id);
+            Category category = db.Categories.Find(id);
             if (category == null)
             {
                 return HttpNotFound();
@@ -110,8 +110,8 @@ namespace Koltseg.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Category category = db.Categorys.Find(id);
-            db.Categorys.Remove(category);
+            Category category = db.Categories.Find(id);
+            db.Categories.Remove(category);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

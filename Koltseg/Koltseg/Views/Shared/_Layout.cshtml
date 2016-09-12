@@ -20,7 +20,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Költségvetés", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Termékek", "Index", "SpendingItem")</li>
+                    <li>@Html.ActionLink("Statisztika", "Statisztika", "Home")</li>
+                    <li>@Html.ActionLink("Statisztika", "Create", "Incomes")</li>
+                    
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @Html.Partial("_LoginPartial")

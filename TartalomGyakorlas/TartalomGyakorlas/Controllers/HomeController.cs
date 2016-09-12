@@ -11,7 +11,7 @@ namespace TartalomGyakorlas.Controllers
     {
         
         private static List<BevetelEsKiadas> tetelek = new List<BevetelEsKiadas>();
-        bool isBevetel;
+        
         static HomeController()
         {
             tetelek.Add(new BevetelEsKiadas() {ID = 1, CreatedTime = DateTime.Now, IncomeItemID =3, IsBevetel=true, Value = 2100, UserID= 2 });

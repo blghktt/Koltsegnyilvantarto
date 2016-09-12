@@ -10,7 +10,7 @@ namespace Koltseg.Models
     {
         public int ID { get; set; }
 
-        [Display(Name="Név")]
+        [Display(Name="Kategória")]
         public string Name { get; set; }
 
         public virtual ICollection<IncomeItem> IncomeItems { get; set; }

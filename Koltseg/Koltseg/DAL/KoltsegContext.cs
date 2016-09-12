@@ -12,7 +12,7 @@ namespace Koltseg.DAL
         public KoltsegContext() : base("Koltseg")
         {
         }
-        public DbSet<Category> Categorys { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Income> Incomes { get; set; }
         public DbSet<IncomeItem> IncomeItems { get; set; }
         public DbSet<Spending> Spendings { get; set; }
