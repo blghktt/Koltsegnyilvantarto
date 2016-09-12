@@ -9,13 +9,9 @@ namespace Koltseg.ViewModels
     public class Koltsegvetes
     {
         public int ID { get; set; }
-
-        [Display(Name = "Hónap")]
-        public int AktualisHonap { get; set; }
-        [Display(Name = "Év")]
-        public int AktualisEv { get; set; }
-
-        public bool IsBevetel { get; set; }
+        
+        [Display(Name ="Típus")]
+        public string Tipus { get; set; }
 
         [StringLength(3)]
         [Display(Name = "Tétel név")]

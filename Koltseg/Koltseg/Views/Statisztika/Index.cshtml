@@ -1,0 +1,96 @@
+﻿@using Koltseg.Models
+
+
+@model List<Category>
+
+@DateTime.Now.Year
+
+@{
+    Dictionary<Tuple<int, int>, Tuple<int, int>> statisztika = new Dictionary<Tuple<int, int>, Tuple<int, int>>();
+
+    //bevétel
+    foreach (var category in Model)
+    {
+        foreach (var incomeItem in category.IncomeItems)
+        {
+            foreach (var income in incomeItem.Incomes)
+            {
+                var year = income.CreatedTime.Year;
+                var month = income.CreatedTime.Month;
+
+                var key = new Tuple<int, int>(year, month);
+
+                if (!statisztika.ContainsKey(key))
+                {
+                    statisztika.Add(key, new Tuple<int, int>(0, 0));
+                }
+                statisztika[key] = new Tuple<int, int>(statisztika[key].Item1 + income.Value, statisztika[key].Item2);
+            }
+
+        }
+
+        //kiadás
+        foreach (var spendingItem in category.SpendingItems)
+        {
+            foreach (var spending in spendingItem.Spendings)
+            {
+                var year = spending.CreatedTime.Year;
+                var month = spending.CreatedTime.Month;
+
+                var key = new Tuple<int, int>(year, month);
+
+                if (!statisztika.ContainsKey(key))
+                {
+                    statisztika.Add(key, new Tuple<int, int>(0, 0));
+                }
+                statisztika[key] = new Tuple<int, int>(statisztika[key].Item1, statisztika[key].Item2 + spending.Value);
+            }
+
+        }
+    }
+
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Hónap</th>
+            <th>Havi összes bevétel</th>
+            <th>Havi összes kiadás</th>
+            <th>Havi összes bevétel- havi összes kiadás</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < DateTime.Now.Month; i++)
+        {
+            <tr>
+               
+                    <td>@Html.ActionLink(new DateTime(DateTime.Now.Year, i + 1, 1).ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("hu")), "Index", "Statisztika", null, new { id = i + 1 })</td>
+                    <td>
+                        @try
+                        {
+                        @statisztika[new Tuple<int, int>(2016, i + 1)].Item1
+                        }
+                        catch { }
+                    </td>
+                    <td>@try
+                    {
+                        @statisztika[new Tuple<int, int>(2016, i + 1)].Item2
+                    }
+                    catch { }
+                    </td>
+                    <td>@try
+                    {
+                        @(statisztika[new Tuple<int, int>(2016, i + 1)].Item1 - statisztika[new Tuple<int, int>(2016, i + 1)].Item2)
+                    }
+                    catch { }
+                    </td>
+              
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+    

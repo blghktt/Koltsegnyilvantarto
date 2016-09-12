@@ -163,11 +163,13 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\StatisztikaController.cs" />
     <Compile Include="DAL\KoltsegContext.cs" />
     <Compile Include="DAL\KoltsegInitializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Misc\SelectListItemOwn.cs" />
     <Compile Include="ViewModels\Koltsegvetes.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Income.cs" />
@@ -222,7 +224,6 @@
     <Content Include="Views\Shared\_FileUpload.cshtml" />
     <Content Include="Views\SpendingItem\Index.cshtml" />
     <Content Include="Views\SpendingItem\UjElem.cshtml" />
-    <Content Include="Views\Home\Statisztika.cshtml" />
     <Content Include="Views\Home\UjFelvitel.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Delete.cshtml" />
@@ -234,6 +235,7 @@
     <Content Include="Views\Incomes\Details.cshtml" />
     <Content Include="Views\Incomes\Edit.cshtml" />
     <Content Include="Views\Incomes\Index.cshtml" />
+    <Content Include="Views\Statisztika\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

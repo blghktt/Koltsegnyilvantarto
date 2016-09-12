@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Koltseg.Models;
 using Koltseg.ViewModels;
 using Koltseg.DAL;
+using System.Globalization;
 
 namespace Koltseg.Controllers
 {
@@ -13,14 +14,32 @@ namespace Koltseg.Controllers
     public class HomeController : Controller
     {
         private KoltsegContext db = new KoltsegContext();
-       
-        public ActionResult Index()
-        {
-            List<Koltsegvetes> tetelek = new List<Koltsegvetes>();
-            var bevetelek = db.Incomes.ToList();
-            var kiadasok = db.Spendings.ToList();
 
-            string nev = System.Web.HttpContext.Current.User.Identity.Name;
+        public ActionResult Index( int? ev,int?honap)
+        {
+            
+            List<Koltsegvetes> tetelek = new List<Koltsegvetes>();
+            List<Income> bevetelek = new List<Income>();
+            List<Spending> kiadasok = new List<Spending>();
+            
+            if (ev == null)
+            {
+                bevetelek = db.Incomes.Where(m => m.CreatedTime.Year == DateTime.Now.Year).Where(m => m.CreatedTime.Month == DateTime.Now.Month).ToList();
+                kiadasok = db.Spendings.Where(m => m.CreatedTime.Year == DateTime.Now.Year).Where(m => m.CreatedTime.Month == DateTime.Now.Month).ToList();
+
+            }
+            else if (honap == null)
+            {
+                bevetelek = db.Incomes.Where(m => m.CreatedTime.Year == ev).ToList();
+                kiadasok = db.Spendings.Where(m => m.CreatedTime.Year == ev).ToList();
+
+            }
+            else
+            {
+                bevetelek = db.Incomes.Where(m => m.CreatedTime.Year == ev).Where(m => m.CreatedTime.Month == honap).ToList();
+                kiadasok = db.Spendings.Where(m => m.CreatedTime.Year == ev).Where(m=>m.CreatedTime.Month == honap).ToList();
+
+            }
 
             foreach (var item in bevetelek)
             {
@@ -29,7 +48,7 @@ namespace Koltseg.Controllers
                     ID = item.ID,
                     TetelNev = item.IncomeItem.Name,
                     KategoriaNev = item.IncomeItem.Category.Name,
-                    IsBevetel = true,
+                    Tipus = "Bevétel",
                     Value = item.Value,
                     Datum = item.CreatedTime,
 
@@ -42,16 +61,16 @@ namespace Koltseg.Controllers
                 {
                     ID = item.ID,
                     TetelNev = item.SpendingItem.Name,
-                   
+
                     KategoriaNev = item.SpendingItem.Category.Name,
-                    IsBevetel = false,
+                    Tipus = "Kiadás",
                     Value = item.Value,
                     Datum = item.CreatedTime,
 
                 });
             }
 
-            tetelek.OrderBy(o => o.Datum).ToList();
+            //tetelek.OrderBy(o => o.Datum).ToList();
 
             return View(tetelek);
         }
@@ -65,27 +84,50 @@ namespace Koltseg.Controllers
         [HttpPost]
         public ActionResult UjFelvitel(Koltsegvetes model)
         {
-            
-            if (Request.Form["select"] == "Bevétel")
+            var currentUser = System.Web.HttpContext.Current.User.Identity.Name;
+
+            if (model.Tipus == "Bevétel")
             {
-                db.Categories.Add(new Category() {Name = model.KategoriaNev });
-                db.IncomeItems.Add(new IncomeItem() { Name = model.TetelNev, CategoryID = db.Categories.Single(p=>p.Name == model.KategoriaNev).ID  ,LastValue = 2010});
-                //bevetel
-                db.Incomes.Add(new Income() {CreatedTime = DateTime.Now, IncomeItemID = db.IncomeItems.Single(p => p.Name == model.TetelNev).ID, Value = model.Value, UserID = 2 });
+                if (!db.IncomeItems.Any(m => m.Name == model.TetelNev))
+                {
+                    db.IncomeItems.Add(new IncomeItem() { Name = model.TetelNev, LastValue = model.Value, CategoryID = 1 });
+                    db.SaveChanges();
+                }
+                else
+                {
+                    var tetel = db.IncomeItems.Single(m => m.Name == model.TetelNev);
+                    tetel.LastValue = model.Value;
+                    db.SaveChanges();
+                }
+
+                db.Incomes.Add(new Income() { CreatedTime = model.Datum, IncomeItemID = db.IncomeItems.Single(p => p.Name == model.TetelNev).ID, Value = model.Value, UserID = db.Users.Single(m => m.UserName == currentUser).ID });
+                db.SaveChanges();
             }
             else
             {
-                //kiadas
-               // tetelek.Add(new BevetelEsKiadas() { ID = 11, CreatedTime = DateTime.Now, ItemID = model.ItemID, IsBevetel = false, Value = model.Value, UserID = 2 });
+                if (!db.SpendingItems.Any(m => m.Name == model.TetelNev))
+                {
+                    db.SpendingItems.Add(new SpendingItem() { Name = model.TetelNev, LastValue = model.Value, CategoryID = 1 });
+                    db.SaveChanges();
+                }
+                else
+                {
+                    var tetel = db.SpendingItems.Single(m => m.Name == model.TetelNev);
+                    tetel.LastValue = model.Value;
+                    db.SaveChanges();
+                }
+                db.Spendings.Add(new Spending() { CreatedTime = model.Datum, SpendingItemID = db.SpendingItems.Single(p => p.Name == model.TetelNev).ID, Value = model.Value, UserID = db.Users.Single(m => m.UserName == currentUser).ID });
+                db.SaveChanges();
             }
-            db.SaveChanges();
+
             ModelState.Clear();
-            Koltsegvetes uj = new Koltsegvetes() { IsBevetel = model.IsBevetel };
-            return View(uj);
+
+            return View();
         }
 
-        public ActionResult Statisztika(int? id)
+        public ActionResult Statisztika()
         {
+
             return View();
         }
 
@@ -97,5 +139,6 @@ namespace Koltseg.Controllers
             }
             base.Dispose(disposing);
         }
+        
     }
 }

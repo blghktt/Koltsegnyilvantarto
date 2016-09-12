@@ -1,12 +1,59 @@
 ﻿@using Koltseg.ViewModels
 @using System.Collections.Generic
+@using Koltseg.Misc
+
 
 @model List<Koltsegvetes>
-
-
 <div>
-    @Html.ActionLink("Új tétel felvitele", "UjFelvitel", "Home",null, new { @class = "btn btn-default" })
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+    <div class="form-group">
+        @Html.Label("Év:", new { htmlAttributes = new { @class = "form-control" } })
+       
+        @Html.DropDownList("ev", new SelectList(
+            new List<Object>
+                {
+               2016,2015, 2014, 2013, 2012, 2011
+
+                }), new { htmlAttributes = new { @class = "form-control" } })
+       
+        
+
+        @Html.Label("Hónap:", new { htmlAttributes = new { @class = "form-control" } })
+
+    
+      
+            @Html.DropDownList("honap", new SelectList(
+            new List<SelectListItemOwn>
+                {
+
+    new SelectListItemOwn  { Selected = false, Text ="Január", Value = "1"},
+     new SelectListItemOwn { Selected = true, Text ="Február", Value = "2"}
+    @*    new SelectListItem { Selected = false, Text ="Március", Value = "3"},
+    new SelectListItem { Selected = false, Text ="Április", Value = "4"},
+     new SelectListItem { Selected = false, Text ="Május", Value = "5"},
+      new SelectListItem { Selected = false, Text ="Június", Value = "6"},
+       new SelectListItem { Selected = false, Text ="Július", Value = "7"},
+        new SelectListItem { Selected = false, Text ="Augusztus", Value = "8"},
+         new SelectListItem { Selected = false, Text ="Szeptember", Value = "9"},
+          new SelectListItem { Selected = false, Text ="Október", Value = "10"},
+           new SelectListItem { Selected = false, Text ="November", Value = "11"},
+            new SelectListItem { Selected = false, Text ="December", Value = "12"}
+    *@
+
+           }), new { htmlAttributes = new { @class = "form-control" } })
+
   
+            <button type="submit" class="btn btn-default">Keresés</button>
+
+        </div>
+
+}
+</div>
+
+<div class="form-group">
+    @Html.ActionLink("Új tétel felvitele", "UjFelvitel", "Home", new { @class = "btn btn-default" })
+
 </div>
 
 
@@ -29,10 +76,10 @@
             <tr>
                 <td>@t.TetelNev</td>
                 <td>@t.KategoriaNev</td>
-                @if (t.IsBevetel)
+                @if (t.Tipus == "Bevétel")
                 {
                     <td>@t.Value</td>
-                            <td></td>
+                    <td></td>
                     osszbevetel = osszbevetel + t.Value;
                 }
                 else
@@ -46,6 +93,7 @@
         }
         <tr>
             <td>Összesen</td>
+            <td></td>
             <td>@osszbevetel</td>
             <td>@osszkiadas</td>
         </tr>
