@@ -169,7 +169,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Misc\EInterval.cs" />
     <Compile Include="Misc\SelectListItemOwn.cs" />
+    <Compile Include="PasswordHelper\PasswordHelper.cs" />
     <Compile Include="ViewModels\Koltsegvetes.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Income.cs" />
@@ -178,6 +180,7 @@
     <Compile Include="Models\SpendingItem.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Statisztika.cs" />
     <Compile Include="ViewModels\TermekSzerkeszto.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +239,7 @@
     <Content Include="Views\Incomes\Edit.cshtml" />
     <Content Include="Views\Incomes\Index.cshtml" />
     <Content Include="Views\Statisztika\Index.cshtml" />
+    <Content Include="Views\Shared\_ProbaPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Koltseg.Models;
 
+
 namespace Koltseg.DAL
 {
     public class KoltsegInitializer : System.Data.Entity.DropCreateDatabaseAlways<KoltsegContext>
@@ -28,11 +29,11 @@ namespace Koltseg.DAL
 
             var user = new List<User>
             {
-                new User {ID= 1, UserName = "Anya" , Password = "12345"},
-                 new User {ID= 2,UserName = "Apa" , Password = "12345"},
-                 new User {ID= 3,UserName = "Bagamér" , Password = "12345"},
-                 new User {ID= 4,UserName = "Benedek" , Password = "12345"},
-                 new User {ID= 5,UserName = "Balázs" , Password = "12345"},
+                new User {ID= 1, UserName = "Anya" , Password = PasswordHelper.PasswordHelper.EncryptPassword("12345")},
+                 new User {ID= 2,UserName = "Apa" , Password = PasswordHelper.PasswordHelper.EncryptPassword("12345")},
+                 new User {ID= 3,UserName = "Bagamér" , Password = PasswordHelper.PasswordHelper.EncryptPassword("12345")},
+                 new User {ID= 4,UserName = "Benedek" , Password = PasswordHelper.PasswordHelper.EncryptPassword("12345")},
+                 new User {ID= 5,UserName = "Balázs" , Password = PasswordHelper.PasswordHelper.EncryptPassword("12345")},
 
             };
 

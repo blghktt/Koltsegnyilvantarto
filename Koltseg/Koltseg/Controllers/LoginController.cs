@@ -26,7 +26,13 @@ namespace Koltseg.Controllers
         {
             try
             {
-                User act = db.Users.Single(u => (u.UserName == model.UserName && u.Password == model.Password));
+                User act = db.Users.Single(u => (u.UserName == model.UserName));
+                var pwd = act.Password;
+                if (!PasswordHelper.PasswordHelper.CheckPassword(model.Password, pwd))
+                {
+                    throw new Exception();
+                }
+                
             }
             catch
             {

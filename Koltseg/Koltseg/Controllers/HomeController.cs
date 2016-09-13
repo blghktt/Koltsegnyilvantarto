@@ -15,7 +15,7 @@ namespace Koltseg.Controllers
     {
         private KoltsegContext db = new KoltsegContext();
 
-        public ActionResult Index( int? ev,int?honap)
+        public ActionResult Index( int? ev, int?honap)
         {
             
             List<Koltsegvetes> tetelek = new List<Koltsegvetes>();

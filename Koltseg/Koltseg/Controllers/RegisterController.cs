@@ -28,7 +28,7 @@ namespace Koltseg.Controllers
             }
             else
             {
-                db.Users.Add(new User() { UserName = model.UserName, Password = model.Password });
+                db.Users.Add(new User() { UserName = model.UserName, Password = PasswordHelper.PasswordHelper.EncryptPassword(model.Password) });
                 db.SaveChanges();
 
                 return RedirectToAction("Index", "Login");
