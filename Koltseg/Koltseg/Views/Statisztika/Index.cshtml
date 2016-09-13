@@ -7,48 +7,90 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Hónap</th>
+            <th>Időszak</th>
             <th>Havi összes bevétel</th>
             <th>Havi összes kiadás</th>
             <th>Havi összes bevétel- havi összes kiadás</th>
         </tr>
     </thead>
     <tbody>
-        @{ var key = "";}
-        @for (var i = DateTime.Now.Month - 11; i <= DateTime.Now.Month; i++)
+        @if (Model.Count > 0 && Model.First().Key.Contains("-"))
         {
-            { key = (i >= 1) ? DateTime.Now.Year.ToString() + "-" + i.ToString() : (DateTime.Now.Year - 1).ToString() + "-" + (12 - Math.Abs(i)).ToString(); }
-       <tr>
-               @* new DateTime(DateTime.Now.Year, i + 1, 1).ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("hu"))*@
-               
-                    <td>@Html.ActionLink((i >= 1 ? (DateTime.Now.Year).ToString() : (DateTime.Now.Year - 1).ToString()) + ". " + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i >= 1 ? i : 12 - Math.Abs(i)), "Index", new { id = key })</td>
-                    <td>
-                        @try
-                        {
-                        @Model[key].OsszBevetel
-                        }
-                        catch { }
-                    </td>
-                    <td>@try
+            
+            for (var i = DateTime.Now.Month - 11; i <= DateTime.Now.Month; i++)
+            {
+                string key = (i >= 1) ? DateTime.Now.Year.ToString() + "-" + i.ToString() : (DateTime.Now.Year - 1).ToString() + "-" + (12 - Math.Abs(i)).ToString();
+                
+                    <tr>
+                        @* new DateTime(DateTime.Now.Year, i + 1, 1).ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("hu"))*@
+
+                        <td>@Html.ActionLink((i >= 1 ? (DateTime.Now.Year).ToString() : (DateTime.Now.Year - 1).ToString()) + ". " + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i >= 1 ? i : 12 - Math.Abs(i)), "Index", new { id = key })</td>
+                        <td>
+                            @try
+                            {
+                                @Model[key].OsszBevetel
+                            }
+                            catch { }
+                        </td>
+                        <td>
+                            @try
                     {
-                       @Model[key].OsszKiadas
-                    }
-                    catch { }
-                    </td>
-                    <td>@try
+                                @Model[key].OsszKiadas
+                            }
+                            catch { }
+                        </td>
+                        <td>
+                            @try
                     {
-                        @(Model[key].OsszBevetel - Model[key].OsszKiadas)
+                                @(Model[key].OsszBevetel - Model[key].OsszKiadas)
+                            }
+                            catch { }
+                        </td>
+
+                    </tr>
+                }
+
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            @* new DateTime(DateTime.Now.Year, i + 1, 1).ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("hu"))*@
+
+                            <td>@Html.ActionLink(item.Key, "Index", new { interval = "Year", id = item.Key })</td>
+                            <td>
+                                @try
+                                {
+                                    @item.Value.OsszBevetel
+                                }
+                                catch { }
+                            </td>
+                            <td>
+                                @try
+                    {
+                                    @item.Value.OsszKiadas
+                                }
+                                catch { }
+                            </td>
+                            <td>
+                                @try
+                    {
+                                    @(item.Value.OsszBevetel - item.Value.OsszKiadas)
+                                }
+                                catch { }
+                            </td>
+
+                        </tr>
+
                     }
-                    catch { }
-                    </td>
-              
-            </tr>
-        }
+                }
     </tbody>
 </table>
 
 @if (Url.RequestContext.RouteData.Values["id"] != null)
 {
+
     try
     {
         <div>

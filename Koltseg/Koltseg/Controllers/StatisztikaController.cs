@@ -22,8 +22,9 @@ namespace Koltseg.Controllers
 
         // GET: Statisztika
         
-        public ActionResult Index(string id)
+        public ActionResult Index(string id, string interval = "Month")
         {
+            currentInterval = (EInterval)Enum.Parse(typeof(EInterval),interval);
             GetModel();
 
             return View(model);
@@ -33,10 +34,10 @@ namespace Koltseg.Controllers
         {
             foreach (var item in db.Incomes)
             {
-                var key = item.CreatedTime.Year.ToString() + "-" + item.CreatedTime.Month.ToString();
+                var key = item.CreatedTime.Year.ToString() + ((currentInterval==EInterval.Month) ? "-" + item.CreatedTime.Month.ToString(): "");
                 if (!model.ContainsKey(key))
                 {
-                    model.Add(key, new Statisztika() { Idopont = item.CreatedTime.ToString("yyyy. MMMM"), OsszBevetel = 0, OsszKiadas = 0,koltsegek=new Dictionary<string, int>() });
+                    model.Add(key, new Statisztika() { Idopont = item.CreatedTime.ToString("yyyy" + (currentInterval==EInterval.Month ? ". MMMM": "")), OsszBevetel = 0, OsszKiadas = 0,koltsegek=new Dictionary<string, int>() });
                 }
 
                 model[key].OsszBevetel += item.Value;
@@ -45,10 +46,10 @@ namespace Koltseg.Controllers
 
             foreach (var item in db.Spendings)
             {
-                var key = item.CreatedTime.Year.ToString() + "-" + item.CreatedTime.Month.ToString();
+                var key = item.CreatedTime.Year.ToString() + ((currentInterval == EInterval.Month) ? "-" + item.CreatedTime.Month.ToString() : "");
                 if (!model.ContainsKey(key))
                 {
-                    model.Add(key, new Statisztika() { Idopont = item.CreatedTime.ToString("yyyy. MMMM"), OsszBevetel = 0, OsszKiadas = 0, koltsegek = new Dictionary<string, int>() });
+                    model.Add(key, new Statisztika() { Idopont = item.CreatedTime.ToString("yyyy" + (currentInterval == EInterval.Month ? ". MMMM" : "")), OsszBevetel = 0, OsszKiadas = 0, koltsegek = new Dictionary<string, int>() });
                 }
 
                 model[key].OsszKiadas += item.Value;
