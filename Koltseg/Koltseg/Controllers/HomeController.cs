@@ -90,7 +90,7 @@ namespace Koltseg.Controllers
             {
                 if (!db.IncomeItems.Any(m => m.Name == model.TetelNev))
                 {
-                    db.IncomeItems.Add(new IncomeItem() { Name = model.TetelNev, LastValue = model.Value, CategoryID = 1 });
+                    db.IncomeItems.Add(new IncomeItem() { Name = model.TetelNev, LastValue = model.Value, CategoryID = db.IncomeItems.First().CategoryID });
                     db.SaveChanges();
                 }
                 else
@@ -107,7 +107,7 @@ namespace Koltseg.Controllers
             {
                 if (!db.SpendingItems.Any(m => m.Name == model.TetelNev))
                 {
-                    db.SpendingItems.Add(new SpendingItem() { Name = model.TetelNev, LastValue = model.Value, CategoryID = 1 });
+                    db.SpendingItems.Add(new SpendingItem() { Name = model.TetelNev, LastValue = model.Value, CategoryID = db.SpendingItems.First().CategoryID });
                     db.SaveChanges();
                 }
                 else
