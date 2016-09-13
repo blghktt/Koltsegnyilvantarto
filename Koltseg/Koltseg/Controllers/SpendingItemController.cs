@@ -39,6 +39,12 @@ namespace TartalomGyakorlas.Controllers
         [HttpGet]
         public ActionResult UjElem()
         {
+            TermekSzerkeszto.CategoryNames.Clear();
+            foreach (var item in db.Categories)
+            {
+                TermekSzerkeszto.CategoryNames.Add(item.Name);
+            }
+            
             return View();
         }
 

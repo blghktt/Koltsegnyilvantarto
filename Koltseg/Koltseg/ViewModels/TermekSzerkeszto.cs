@@ -19,5 +19,7 @@ namespace Koltseg.ViewModels
 
         [Display(Name = "Utolsó érték")]
         public int LastValue { get; set; }
+
+        public static List<string> CategoryNames = new List<string>();
     }
 }
