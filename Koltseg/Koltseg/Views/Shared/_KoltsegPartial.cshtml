@@ -1,0 +1,35 @@
+﻿@using Koltseg.Models
+
+@model Dictionary<string, int>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Kategória</th>
+            <th>Kiadás</th>
+            <th>Kiadás / Összes kiadás</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach(var item in Model)
+        {
+           
+            <tr>
+                <td>
+                   @item.Key
+                </td>
+                <td>
+                   @item.Value
+                </td>
+                <td>
+                   @Math.Round(1.0*item.Value/ Model.Sum(x=>x.Value)*100) %
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

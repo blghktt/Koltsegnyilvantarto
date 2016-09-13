@@ -9,17 +9,12 @@ namespace Koltseg.ViewModels
 {
     public class Statisztika
     {
-        public string Id { get; set; }
-        
-        //public EInterval Intervallum { get; set; }
-
-        public DateTime Datum { get; set; }
+        public string Idopont { get; set; }
 
         public int OsszBevetel { get; set; }
         public int OsszKiadas { get; set; }
 
-
-        public List<Spending> koltsegek = new List<Spending>();
+        public Dictionary<string, int> koltsegek { get; set; }
 
     }
 }

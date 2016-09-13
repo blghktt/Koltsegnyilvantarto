@@ -1,8 +1,7 @@
 ﻿@using Koltseg.ViewModels
 @using System.Globalization
 
-
-@model Dictionary<string, Tuple<int,int>>
+@model Dictionary<string, Statisztika>
 
 
 <table class="table">
@@ -18,27 +17,27 @@
         @{ var key = "";}
         @for (var i = DateTime.Now.Month - 11; i <= DateTime.Now.Month; i++)
         {
-            { key = (i >= 1) ? DateTime.Now.Year.ToString() + "-" + i.ToString() : (DateTime.Now.Year-1).ToString() + "-" + (12 - Math.Abs(i)).ToString(); }
+            { key = (i >= 1) ? DateTime.Now.Year.ToString() + "-" + i.ToString() : (DateTime.Now.Year - 1).ToString() + "-" + (12 - Math.Abs(i)).ToString(); }
        <tr>
                @* new DateTime(DateTime.Now.Year, i + 1, 1).ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("hu"))*@
                
-                    <td>@Html.ActionLink(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i>=1 ? i : 12 - Math.Abs(i)), "Index", "Statisztika", new { id = 1})</td>
+                    <td>@Html.ActionLink((i >= 1 ? (DateTime.Now.Year).ToString() : (DateTime.Now.Year - 1).ToString()) + ". " + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i >= 1 ? i : 12 - Math.Abs(i)), "Index", new { id = key })</td>
                     <td>
                         @try
                         {
-                        @Model[key].Item1
+                        @Model[key].OsszBevetel
                         }
                         catch { }
                     </td>
                     <td>@try
                     {
-                       @Model[key].Item2
+                       @Model[key].OsszKiadas
                     }
                     catch { }
                     </td>
                     <td>@try
                     {
-                        @(Model[key].Item1-Model[key].Item2)
+                        @(Model[key].OsszBevetel - Model[key].OsszKiadas)
                     }
                     catch { }
                     </td>
@@ -47,3 +46,22 @@
         }
     </tbody>
 </table>
+
+@if (Url.RequestContext.RouteData.Values["id"] != null)
+{
+    try
+    {
+        <div>
+            @Model[Url.RequestContext.RouteData.Values["id"].ToString()].Idopont
+        </div>
+
+    @Html.Partial("_KoltsegPartial", Model[Url.RequestContext.RouteData.Values["id"].ToString()].koltsegek)
+    }
+    catch (Exception ex)
+    {
+        <div>
+            A kiválasztott időszakban nem volt költés
+        </div>
+    }
+}
+

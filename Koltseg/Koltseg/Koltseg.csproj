@@ -239,7 +239,7 @@
     <Content Include="Views\Incomes\Edit.cshtml" />
     <Content Include="Views\Incomes\Index.cshtml" />
     <Content Include="Views\Statisztika\Index.cshtml" />
-    <Content Include="Views\Shared\_ProbaPartial.cshtml" />
+    <Content Include="Views\Shared\_KoltsegPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

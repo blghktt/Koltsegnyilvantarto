@@ -11,17 +11,18 @@ using System.Web.Mvc;
 
 namespace Koltseg.Controllers
 {
+    [Authorize]
     public class StatisztikaController : Controller
     {
         private KoltsegContext db = new KoltsegContext();
         private EInterval currentInterval = EInterval.Month;
         
                             //bevétel, kiadás                                                 
-        Dictionary<string, Tuple<int, int>> model = new Dictionary<string, Tuple<int, int>>();
+        Dictionary<string, Statisztika> model = new Dictionary<string, Statisztika>();
 
         // GET: Statisztika
-        [HttpGet]
-        public ActionResult Index()
+        
+        public ActionResult Index(string id)
         {
             GetModel();
 
@@ -35,10 +36,10 @@ namespace Koltseg.Controllers
                 var key = item.CreatedTime.Year.ToString() + "-" + item.CreatedTime.Month.ToString();
                 if (!model.ContainsKey(key))
                 {
-                    model.Add(key, new Tuple<int, int>(0, 0));
+                    model.Add(key, new Statisztika() { Idopont = item.CreatedTime.ToString("yyyy. MMMM"), OsszBevetel = 0, OsszKiadas = 0,koltsegek=new Dictionary<string, int>() });
                 }
 
-                model[key] = new Tuple<int, int>(model[key].Item1 + item.Value, model[key].Item2);
+                model[key].OsszBevetel += item.Value;
 
             }
 
@@ -47,11 +48,18 @@ namespace Koltseg.Controllers
                 var key = item.CreatedTime.Year.ToString() + "-" + item.CreatedTime.Month.ToString();
                 if (!model.ContainsKey(key))
                 {
-                    model.Add(key, new Tuple<int, int>(0, 0));
+                    model.Add(key, new Statisztika() { Idopont = item.CreatedTime.ToString("yyyy. MMMM"), OsszBevetel = 0, OsszKiadas = 0, koltsegek = new Dictionary<string, int>() });
                 }
 
-                model[key] = new Tuple<int, int>(model[key].Item1, model[key].Item2 + item.Value);
+                model[key].OsszKiadas += item.Value;
 
+                var categoryName = item.SpendingItem.Category.Name;
+
+                if (!model[key].koltsegek.ContainsKey(categoryName))
+                {
+                    model[key].koltsegek.Add(categoryName, 0);
+                }
+                model[key].koltsegek[categoryName] += item.Value;
             }
         }
 
